@@ -94,7 +94,7 @@ export default function PermanentDrawerLeft() {
         anchor="left"
       >
         {/* <div className={classes.toolbar} /> */}
-        <img src="tradersplatform(2).png" />
+        <img src="tradersplatform(2).png" alt="text"/>
         {/* <Divider /> */}
         <List>
           {['Inbox', 'Smart trading', 'Copy-trading', 'Invite'].map((text, index) => (
