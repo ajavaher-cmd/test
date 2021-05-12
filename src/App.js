@@ -50,8 +50,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: theme.palette.primary.dark,
-    color: 'white'
+    backgroundColor: 'white',
+    color: theme.palette.primary.main
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -94,12 +94,12 @@ export default function PermanentDrawerLeft() {
         anchor="left"
       >
         {/* <div className={classes.toolbar} /> */}
-
-        <Divider />
+        <img src="tradersplatform(2).png" />
+        {/* <Divider /> */}
         <List>
           {['Inbox', 'Smart trading', 'Copy-trading', 'Invite'].map((text, index) => (
             <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon style={{color: 'white'}}/> : <MailIcon style={{color: 'white'}}/>}</ListItemIcon>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon style={{color: 'purple'}}/> : <MailIcon style={{color: 'purple'}}/>}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
