@@ -2,7 +2,7 @@
 import './App.css';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
@@ -22,6 +22,8 @@ import ButtonGroup from '@material-ui/core/ButtonGroup';
 import Switch from '@material-ui/core/Switch';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+import Slider from '@material-ui/core/Slider';
+import Input from '@material-ui/core/Input';
 
 const drawerWidth = 240;
 
@@ -66,6 +68,24 @@ export default function PermanentDrawerLeft() {
   const classes = useStyles();
   const [checked, setChecked] = React.useState(false);
   const [checkedDetails, setCheckedDetails] = React.useState(false);
+  const [value, setValue] = React.useState(30);
+
+  const handleSliderChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleInputChange = (event) => {
+    setValue(event.target.value === '' ? '' : Number(event.target.value));
+  };
+
+  const handleBlur = () => {
+    if (value < 0) {
+      setValue(0);
+    } else if (value > 100) {
+      setValue(100);
+    }
+  };
+
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -74,7 +94,7 @@ export default function PermanentDrawerLeft() {
   const handleChangeDetails = (event) => {
     setCheckedDetails(event.target.checked);
   };
-
+  
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -273,7 +293,47 @@ export default function PermanentDrawerLeft() {
               </Paper>
             </Grid>
             <Grid item >
-              <Paper className={classes.paper} style={{height:150, marginTop:8}}>xs=3</Paper>
+              <Paper className={classes.paper} style={{height:150, marginTop:8, padding: 30}}>
+              <Box style={{display: "block", marginBottom:45}}>
+                  <Box style={{float: 'left'}}>
+                  <Typography style={{ display: 'inline', marginLeft: 5}}>Stop Loss Timeout</Typography>
+                  </Box>  
+                  <Box style={{float: 'right', }}>
+                    <FormControlLabel
+                    control={<Switch color='primary' label='On' labelPlacement='start'/> } label='On' labelPlacement='start'
+                    />
+                  </Box>
+                </Box>
+                <Typography variant='caption' id="input-slider" gutterBottom style={{float:'left'}}>
+                  Minutes
+                </Typography>
+              <Grid container spacing={2} alignItems="center">
+              <Grid item xs>
+                <Slider
+                  value={typeof value === 'number' ? value : 0}
+                  onChange={handleSliderChange}
+                  aria-labelledby="input-slider"
+                />
+            
+              </Grid>
+              <Grid item>
+                <Input
+                  className={classes.input}
+                  value={value}
+                  margin="dense"
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  inputProps={{
+                    step: 10,
+                    min: 0,
+                    max: 100,
+                    type: 'number',
+                    'aria-labelledby': 'input-slider',
+                  }}
+                />
+              </Grid>
+              </Grid>
+              </Paper>
             </Grid>
           </Grid>
         
