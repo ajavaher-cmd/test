@@ -66,16 +66,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PermanentDrawerLeft() {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState(false);
+  const [checked, setChecked] = React.useState(true);
   const [checkedDetails, setCheckedDetails] = React.useState(false);
+  const [checkedTop, setCheckedTop] = React.useState(true);
+  const [checkedDateRanges, setCheckedDateRanges] = React.useState(false)
+  const [checkedHotList, setCheckedHotList] = React.useState(true);
   const [value, setValue] = React.useState(30);
+  const [value1, setValue1] = React.useState(40)
 
   const handleSliderChange = (event, newValue) => {
     setValue(newValue);
   };
 
+  const handleSliderChange1 = (event, newValue) => {
+    setValue1(newValue);
+  };
+
   const handleInputChange = (event) => {
     setValue(event.target.value === '' ? '' : Number(event.target.value));
+  };
+
+  const handleInputChange1 = (event) => {
+    setValue1(event.target.value === '' ? '' : Number(event.target.value));
   };
 
   const handleBlur = () => {
@@ -86,6 +98,14 @@ export default function PermanentDrawerLeft() {
     }
   };
 
+  const handleBlur1 = () => {
+    if (value < 0) {
+      setValue1(0);
+    } else if (value > 100) {
+      setValue1(100);
+    }
+  };
+
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
@@ -93,6 +113,18 @@ export default function PermanentDrawerLeft() {
 
   const handleChangeDetails = (event) => {
     setCheckedDetails(event.target.checked);
+  };
+
+  const handleChangeCheckTop = (event) => {
+    setCheckedTop(event.target.checked);
+  };
+
+  const handleChangeCheckDateRanges = (event) => {
+    setCheckedDateRanges(event.target.checked);
+  };
+
+  const handleChangeCheckHotList = (event) => {
+    setCheckedHotList(event.target.checked);
   };
   
   return (
@@ -139,13 +171,16 @@ export default function PermanentDrawerLeft() {
               width={'100%'}
               details={checkedDetails}
               hide_side_toolbar={!checked}
-              withdateranges={true}
+              hide_top_toolbar={!checkedTop}
+              withdateranges={checkedDateRanges}
+              hotlist={checkedHotList}
               
             />
           </Paper>
         </Grid>
         <Grid item xs={2}>
             <Paper className={classes.paperConfig} style={{height:532}}>
+              <Typography variant='h6' style={{marginLeft:30,marginBottom: 20, fontWeight: 'bold'}}>Configuration</Typography>
               <div>
                 <Checkbox
                 checked={checked}
@@ -161,6 +196,30 @@ export default function PermanentDrawerLeft() {
                 inputProps={{ 'aria-label': 'primary checkbox' }}
                 />
                 <Typography style={{display:'inline'}}>Details</Typography>
+              </div>
+              <div>
+                <Checkbox
+                checked={checkedTop}
+                onChange={handleChangeCheckTop}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+                />
+                <Typography style={{display:'inline'}}>Top Bar Menu</Typography>
+              </div>
+              <div>
+                <Checkbox
+                checked={checkedDateRanges}
+                onChange={handleChangeCheckDateRanges}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+                />
+                <Typography style={{display:'inline'}}>Date Ranges</Typography>
+              </div>
+              <div>
+                <Checkbox
+                checked={checkedHotList}
+                onChange={handleChangeCheckHotList}
+                inputProps={{ 'aria-label': 'primary checkbox' }}
+                />
+                <Typography style={{display:'inline'}}>HotList</Typography>
               </div>
             </Paper>
         </Grid>
@@ -229,7 +288,47 @@ export default function PermanentDrawerLeft() {
               </Paper>
             </Grid>
             <Grid item >
-              <Paper className={classes.paper} style={{height:150, marginTop:8}}>xs=3</Paper>
+              <Paper className={classes.paper} style={{height:150, marginTop:8}}>
+                    <Box style={{display: "block", marginBottom:45}}>
+                        <Box style={{float: 'left'}}>
+                        <Typography style={{ display: 'inline', marginLeft: 5, color : 'black'}}>Trailing Take Profit</Typography>
+                        </Box>  
+                        <Box style={{float: 'right', }}>
+                          <FormControlLabel
+                          control={<Switch color='primary' label='On' labelPlacement='start'/> } label='On' labelPlacement='start'
+                          />
+                        </Box>
+                      </Box>
+                      <Typography variant='caption' id="input-slider" gutterBottom style={{float:'left', color: 'black'}}>
+                        Follow Max Price With Deviation (%)
+                      </Typography>
+                    <Grid container spacing={2} alignItems="center">
+                    <Grid item xs>
+                      <Slider
+                        value={typeof value1 === 'number' ? value1 : 0}
+                        onChange={handleSliderChange1}
+                        aria-labelledby="input-slider"
+                      />
+                  
+                    </Grid>
+                    <Grid item>
+                      <Input
+                        className={classes.input}
+                        value={value1}
+                        margin="dense"
+                        onChange={handleInputChange1}
+                        onBlur={handleBlur1}
+                        inputProps={{
+                          step: 10,
+                          min: 0,
+                          max: 100,
+                          type: 'number',
+                          'aria-labelledby': 'input-slider',
+                        }}
+                      />
+                    </Grid>
+                    </Grid>
+              </Paper>
             </Grid>
             <Grid item >
               <Paper style={{height:90, marginTop:8, padding: 30}}>
@@ -253,7 +352,7 @@ export default function PermanentDrawerLeft() {
               <Box style={{display: "block"}}>
                   <Box style={{float: 'left'}}>
                   <div style={{ height: 5, width: 5, borderRadius: '50%', display: 'inline-block', backgroundColor: 'red'}}></div>
-                  <Typography style={{ display: 'inline', marginLeft: 5}}>Stop Loss Limit Order</Typography>
+                  <Typography style={{ display: 'inline', marginLeft: 5, color : 'black'}}>Stop Loss Limit Order</Typography>
                   </Box>  
                   <Box style={{float: 'right', }}>
                     <FormControlLabel
@@ -296,7 +395,7 @@ export default function PermanentDrawerLeft() {
               <Paper className={classes.paper} style={{height:150, marginTop:8, padding: 30}}>
               <Box style={{display: "block", marginBottom:45}}>
                   <Box style={{float: 'left'}}>
-                  <Typography style={{ display: 'inline', marginLeft: 5}}>Stop Loss Timeout</Typography>
+                  <Typography style={{ display: 'inline', marginLeft: 5, color : 'black'}}>Stop Loss Timeout</Typography>
                   </Box>  
                   <Box style={{float: 'right', }}>
                     <FormControlLabel
@@ -304,7 +403,7 @@ export default function PermanentDrawerLeft() {
                     />
                   </Box>
                 </Box>
-                <Typography variant='caption' id="input-slider" gutterBottom style={{float:'left'}}>
+                <Typography variant='caption' id="input-slider" gutterBottom style={{float:'left', color: 'black'}}>
                   Minutes
                 </Typography>
               <Grid container spacing={2} alignItems="center">
