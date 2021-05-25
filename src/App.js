@@ -2,7 +2,7 @@
 import './App.css';
 import TradingViewWidget, { Themes } from 'react-tradingview-widget';
 import React from 'react';
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import List from '@material-ui/core/List';
